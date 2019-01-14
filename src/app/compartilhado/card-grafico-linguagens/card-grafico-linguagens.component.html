@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-header">Curtidas/linguagem</div>
+  <div class="card-body">
+    <div *ngIf="nomesLinguagens && nomesLinguagens.length == 0">
+      <p class="text-center text-muted">Dados não disponíveis</p>
+    </div>
+    <div style="display: block" *ngIf="nomesLinguagens && nomesLinguagens.length > 0">
+      <canvas baseChart [data]="curtidasLinguagens" [labels]="nomesLinguagens" [chartType]="tipoGrafico"></canvas>
+    </div>
+  </div>
+</div>

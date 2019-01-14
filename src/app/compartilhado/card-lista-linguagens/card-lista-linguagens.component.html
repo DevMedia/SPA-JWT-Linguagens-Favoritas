@@ -1,0 +1,33 @@
+<div class="card">
+  <div class="card-header">Linguagens</div>
+  <div class="card-body">
+    <div *ngIf="linguagens && linguagens.length == 0">
+      <p class="text-center text-muted">Dados não disponíveis</p>
+    </div>
+    <table class="table table-bordered text-center" *ngIf="linguagens && linguagens.length > 0">
+      <thead>
+        <tr>
+          <th scope="col">Nome</th>
+          <th scope="col">Curtidas</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let linguagem of linguagens">
+          <td>{{ linguagem.nome }}</td>
+          <td><span class="badge badge-pill badge-info">{{ linguagem.numeroUsuarios }}</span></td>
+          <td>
+            <button 
+            *ngIf="!linguagem.usuarioCurte" 
+            type="button" 
+            class="btn btn-success" 
+            (click)="curtirLinguagem(linguagem)">
+            Curtir
+          </button>
+          <p *ngIf="linguagem.usuarioCurte"  class="text-center text-muted">Linguagem curtida.</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
