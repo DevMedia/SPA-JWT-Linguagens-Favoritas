@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators';
 import * as jwtDecode from 'jwt-decode';
 
 import { TokenService } from './token.service';
@@ -40,14 +40,21 @@ export class AuthService {
   }
 
   deslogar(): Observable<TokenApi> {
-    this.resetarSessao();
     const url = `${environment.linguagensApiUrl}/auth/logout`;
-    return this.http.post<TokenApi>(url, {});
+    return this.http.post<TokenApi>(url, {}).pipe(
+      tap(() => {
+        this.resetarSessao();
+      },
+        catchError((err) => {
+          this.resetarSessao();
+          return err;
+        }))
+    );
   }
 
   criarSessao(token: string): boolean {
     try {
-      const usuario: Usuario = jwtDecode(token)['usuario'];
+      const usuario: Usuario = jwtDecode(token);
       this.usuarioService.setUsuario(usuario);
       this.tokenService.token = token;
       this._autenticado.next(true);
