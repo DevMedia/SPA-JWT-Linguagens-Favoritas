@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   logar(usuario: Usuario): Observable<boolean> {
-    const url = `${environment.linguagensApiUrl}/usuarios/login`;
+    const url = `${environment.linguagensApiUrl}/auth/login`;
     return this.http.post<TokenApi>(url, usuario).pipe(
       map((resposta: TokenApi) => {
         if (!this.criarSessao(resposta.token)) {
@@ -41,7 +41,7 @@ export class AuthService {
 
   deslogar(): Observable<TokenApi> {
     this.resetarSessao();
-    const url = `${environment.linguagensApiUrl}/usuarios/logout`;
+    const url = `${environment.linguagensApiUrl}/auth/logout`;
     return this.http.post<TokenApi>(url, {});
   }
 
