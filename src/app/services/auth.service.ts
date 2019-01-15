@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap, catchError } from 'rxjs/operators';
+import { map, tap, catchError, finalize } from 'rxjs/operators';
 import * as jwtDecode from 'jwt-decode';
 
 import { TokenService } from './token.service';
@@ -42,13 +42,7 @@ export class AuthService {
   deslogar(): Observable<TokenApi> {
     const url = `${environment.linguagensApiUrl}/auth/logout`;
     return this.http.post<TokenApi>(url, {}).pipe(
-      tap(() => {
-        this.resetarSessao();
-      },
-        catchError((err) => {
-          this.resetarSessao();
-          return err;
-        }))
+      finalize(() => { this.resetarSessao(); })
     );
   }
 
