@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, tap, catchError, finalize } from 'rxjs/operators';
+import { map, finalize } from 'rxjs/operators';
 import * as jwtDecode from 'jwt-decode';
 
 import { TokenService } from './token.service';
